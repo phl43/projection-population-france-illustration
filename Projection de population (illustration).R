@@ -72,19 +72,19 @@ projection_population <- function(population,
                                                        ncol = nb_classes_âge),
                                                 taux_survie_hommes)
   
-  # crée une matrice de Leslie pour les femmes immigrées non-européennes
+  # matrice de Leslie pour les femmes immigrées non-européennes
   leslie_femmes_immigrées_non_européennes <- rbind(matrix(fécondité$immigrées_non_européennes,
                                                           nrow = 1,
                                                           ncol = nb_classes_âge),
                                                    taux_survie_femmes)
   
-  # crée une matrice de Leslie pour les hommes natifs d'origine non-européene
+  # matrice de Leslie pour les hommes natifs d'origine non-européene
   leslie_hommes_natifs_non_européens <- rbind(matrix(rep(0, nb_classes_âge),
                                                      nrow = 1,
                                                      ncol = nb_classes_âge),
                                               taux_survie_hommes)
   
-  # crée une matrice de Leslie pour les femmes natives d'origine non-européenne
+  # matrice de Leslie pour les femmes natives d'origine non-européenne
   leslie_femmes_natives_non_européennes <- rbind(matrix(fécondité$natives_non_européennes,
                                                         nrow = 1,
                                                         ncol = nb_classes_âge),
@@ -232,7 +232,7 @@ résultats1 <- projection_population(population,
                                    mortalité,
                                    solde_migratoire_non_européen,
                                    1.05,
-                                   2015:2100)
+                                   2015:2070)
 
 # prépare la structure qui contient les résultats pour ggplot
 résultats1 <- résultats1 %>%
