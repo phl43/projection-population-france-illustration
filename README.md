@@ -1,2 +1,2 @@
 # projection-population-france-illustration
-Un script qui fait une projection de population à l'aide d'un modèle par cohortes et composantes écrit rapidement pour les besoins d'un billet de blog dans lequel j'explique la dynamique de population qui sous-tend le changement démographique induit par l'immigration.
+Un script qui fait une projection de population à l'aide d'un modèle par cohortes et composantes écrit rapidement pour les besoins d'un billet de blog (https://necpluribusimpar.net/un-point-sur-la-dynamique-des-populations-et-le-changement-demographique-induit-par-limmigration/) dans lequel j'explique la dynamique de population qui sous-tend le changement démographique induit par l'immigration.
