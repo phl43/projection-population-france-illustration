@@ -232,7 +232,7 @@ résultats1 <- projection_population(population,
                                    mortalité,
                                    solde_migratoire_non_européen,
                                    1.05,
-                                   2015:2070)
+                                   2015:2100)
 
 # prépare la structure qui contient les résultats pour ggplot
 résultats1 <- résultats1 %>%
@@ -330,3 +330,43 @@ ggplot(résultats3, aes(x = année, y = proportion, group = groupe, color = grou
   theme(axis.text.x = element_text(angle = 90, vjust = 0.5)) +
   theme(plot.title = element_text(hjust = 0.5)) +
   ggsave("Projection de la part des individus d'origine non-européenne dans la population entre 2015 et 2100 (scénario avec immigration au niveau actuel et fécondité des immigrées non-européennes identique à celle des autres femmes).png", width = 12, height = 6)
+
+population$hommes_natifs_non_européens[0:30] <- population$hommes_européens[0:30] * 0.10
+population$femmes_natives_non_européennes[0:30] <- population$femmes_européennes[0:30] * 0.10
+
+population$hommes_européens <- population$hommes_européens - population$hommes_natifs_non_européens
+population$femmes_européennes <- population$femmes_européennes - population$femmes_natives_non_européennes
+
+fécondité$immigrées_non_européennes <- c(rep(0, 14), fécondité_insee$TAUX, rep(0, 51)) * 3 / 1.92
+
+résultats4 <- projection_population(population,
+                                    fécondité,
+                                    mortalité,
+                                    solde_migratoire_non_européen,
+                                    1.05,
+                                    2015:2100)
+
+# prépare la structure qui contient les résultats pour ggplot
+résultats4 <- résultats4 %>%
+  gather(key = groupe,
+         value = proportion,
+         proportion_immigrés_non_européens,
+         proportion_natifs_non_européens,
+         proportion_total_non_européens,
+         proportion_nouveau_nés_non_européens) %>%
+  filter(groupe != "proportion_nouveau_nés_non_européens")
+
+# crée un graphique qui montre l'évolution de la part des différentes composantes d'origine
+# non-européenne de la population entre 2015 et 2100 d'après la projection
+ggplot(résultats4, aes(x = année, y = proportion, group = groupe, color = groupe)) +
+  geom_line(size = 1) +
+  theme_bw() +
+  ggtitle("Projection de la part des individus d'origine non-européenne dans la population entre 2015 et 2100\n(scénario avec immigration au niveau actuel et présence de descendants d'immigrés non-européens)") +
+  xlab("Année") +
+  ylab("Proportion") +
+  scale_color_discrete(name = "Groupe", labels = c("Immigrés d'origine\nnon-européenne", "Natifs d'origine\nnon-européenne", "Ensemble des individus\nd'origine non-européenne")) +
+  scale_x_continuous(breaks = seq(2015, 2100, 5)) +
+  scale_y_continuous(breaks = seq(0, max(résultats4$proportion), 0.05), labels = scales::percent_format(accuracy = 1)) +
+  theme(axis.text.x = element_text(angle = 90, vjust = 0.5)) +
+  theme(plot.title = element_text(hjust = 0.5)) +
+  ggsave("Projection de la part des individus d'origine non-européenne dans la population entre 2015 et 2100 (scénario avec immigration au niveau actuel et présence de descendants d'immigrés non-européens).png", width = 12, height = 6)
